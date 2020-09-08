@@ -67,11 +67,13 @@
                            />
 
                     <ComboBox Name="COMPort">
-                        <ComboBoxItem />
                     </ComboBox>
 
                     <ComboBox Name="BaudRate">
-                        <ComboBoxItem />
+                        <ComboBoxItem Content="2400"/>
+                        <ComboBoxItem Content="4800"/>
+                        <ComboBoxItem Content="9600"/>
+                        <ComboBoxItem Content="115200"/>
                     </ComboBox>
 
                 </StackPanel>

@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 using System.Data.OleDb;
 
+using System.IO.Ports;
+
 namespace WpfApp2
 {
     /// <summary>
@@ -23,6 +25,12 @@ namespace WpfApp2
 
     public partial class MainWindow : Window
     {
+
+        private void Ports_Get (object sender, EventArgs e)
+        {
+            string[] ports = SerialPort.GetPortNames();
+            COMPort.Items.Add(ports);
+        }
 
     }
 }
