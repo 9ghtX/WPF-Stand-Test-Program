@@ -3,16 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WpfApp2.ViewModels"  
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
 
     <Window.Resources>
-        <Style TargetType="Button" x:Key="Menu">
-            <Setter Property="Background" Value="LightSlateGray"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="BorderThickness" Value="0"/>
+        <Style TargetType="Button" x:Key="DoWithPort">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
             <Setter Property="Margin" Value="3"/>
+            <Setter Property="Width" Value="120"/>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="Status">
@@ -22,45 +27,79 @@
         </Style>
     </Window.Resources>
 
+    <DockPanel>
 
-    <Grid>
+        <Menu DockPanel.Dock="Top">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О программе"/>
+            </MenuItem>
 
-        <Grid>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom"></StatusBar>
 
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid Background="DimGray">
 
-            <StackPanel Background="LightBlue">
-                
-                <TextBlock Text="Menu" 
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+
+                    <TextBlock Text="Меню" 
                            Grid.Column="0" 
                            Grid.Row="0"
                            TextAlignment="Center"
                            FontSize="24"
                            />
 
-                <Button Content="Press me!" Style="{StaticResource Menu}"/>
-                <Button Content="Press me!" Style="{StaticResource Menu}"/>
-                <Button Content="Press me!" Style="{StaticResource Menu}"/>
-                
-            </StackPanel>
+                    <ComboBox Name="COMPort">
+                        <ComboBoxItem />
+                    </ComboBox>
 
-            <StackPanel Background="LightBlue" Grid.Row="1">
+                    <ComboBox Name="BaudRate">
+                        <ComboBoxItem />
+                    </ComboBox>
 
-                <TextBlock Text="Something" Style="{StaticResource Status}"/>
-                <TextBlock Text="Something" Style="{StaticResource Status}"/>
-                <TextBlock Text="Something" Style="{StaticResource Status}"/>
+                </StackPanel>
 
-            </StackPanel>
+                <StackPanel Grid.Row="1">
+
+                    <Button Content="Старт" Style="{StaticResource DoWithPort}"/>
+                    <Button Content="Стоп" Style="{StaticResource DoWithPort}"/>
+                    <Button Content="Пауза" Style="{StaticResource DoWithPort}"/>
+
+                </StackPanel>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+
+                <TextBlock Name="DataOutPut"
+                       Background="White"
+                       Margin="10"
+                       Text="Выходные данные с платы"
+                       FontSize="16"/>
+
+            </Grid>
 
         </Grid>
 
-    </Grid>
+    </DockPanel>
+
+
+    
 </Window>
