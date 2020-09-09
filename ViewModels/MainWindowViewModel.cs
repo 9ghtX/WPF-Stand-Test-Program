@@ -12,7 +12,7 @@ namespace WpfApp2.ViewModels
 
         /// <summery>Загловок окна</summery>
 
-        private string _Title = "Main Menu";
+        private string _Title = "ULTRA STAND PORGRAM";
 
         public string Title
         {

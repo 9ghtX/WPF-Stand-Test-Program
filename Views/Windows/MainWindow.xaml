@@ -69,7 +69,7 @@
                     <ComboBox Name="COMPort">
                     </ComboBox>
 
-                    <ComboBox Name="BaudRate">
+                    <ComboBox Name="BaudRate" SelectedIndex="2">
                         <ComboBoxItem Content="2400"/>
                         <ComboBoxItem Content="4800"/>
                         <ComboBoxItem Content="9600"/>
@@ -80,8 +80,8 @@
 
                 <StackPanel Grid.Row="1">
 
-                    <Button Content="Старт" Style="{StaticResource DoWithPort}"/>
-                    <Button Content="Стоп" Style="{StaticResource DoWithPort}"/>
+                    <Button Content="Старт" Style="{StaticResource DoWithPort}" Click="Button_Click"/>
+                    <Button Content="Стоп" Style="{StaticResource DoWithPort}" />
                     <Button Content="Пауза" Style="{StaticResource DoWithPort}"/>
 
                 </StackPanel>

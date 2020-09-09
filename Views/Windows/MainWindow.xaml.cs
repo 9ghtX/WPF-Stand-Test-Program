@@ -32,5 +32,35 @@ namespace WpfApp2
             COMPort.Items.Add(ports);
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                SerialPort _port = new SerialPort("COMPort.Text",
+                Convert.ToInt32(BaudRate.SelectedItem),
+                Parity.None,
+                8,
+                StopBits.One);
+
+            }
+
+            catch
+            {
+
+                MessageBoxResult result = MessageBox.Show("Произошла ошибка. Проверьте настройки",
+                                                          "Приложение приостановлено", 
+                                                          MessageBoxButton.OKCancel, 
+                                                          MessageBoxImage.Error);
+                
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                }
+
+            }
+            
+        }
+
     }
 }
