@@ -65,7 +65,7 @@
                            TextAlignment="Center"
                            FontSize="24"
                            />
-
+                    
                     <ComboBox Name="COMPort">
                     </ComboBox>
 
@@ -90,7 +90,7 @@
 
             <Grid Grid.Column="1">
 
-                <TextBlock Name="DataOutPut"
+                <TextBlock Name="DataOutput"
                        Background="White"
                        Margin="10"
                        Text="Выходные данные с платы"

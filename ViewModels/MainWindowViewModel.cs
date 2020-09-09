@@ -12,7 +12,7 @@ namespace WpfApp2.ViewModels
 
         /// <summery>Загловок окна</summery>
 
-        private string _Title = "ULTRA STAND PORGRAM";
+        private string _Title = "ULTRA STAND PRORGRAM";
 
         public string Title
         {

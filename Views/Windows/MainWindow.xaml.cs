@@ -26,25 +26,39 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
 
+        #region Получение списка подключенных портов
         private void Ports_Get (object sender, EventArgs e)
         {
             string[] ports = SerialPort.GetPortNames();
             COMPort.Items.Add(ports);
         }
+        #endregion
 
+        #region Подключение через кнопку "Старт"
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
-                SerialPort _port = new SerialPort("COMPort.Text",
+                // Объявление порта и его параметров
+                SerialPort _serialPort = new SerialPort("COMPort.Text",
                 Convert.ToInt32(BaudRate.SelectedItem),
                 Parity.None,
                 8,
                 StopBits.One);
 
+                // Тайминги чтения и записи
+                _serialPort.ReadTimeout = 500;
+                _serialPort.WriteTimeout = 500;
+
+                _serialPort.Open();
+
+                // Считывает данные до появления указанного символа
+                DataOutput.Text = _serialPort.ReadTo("1");
+
             }
 
+            // Выдача ошибки при неудачном подключении
             catch
             {
 
@@ -53,14 +67,10 @@ namespace WpfApp2
                                                           MessageBoxButton.OKCancel, 
                                                           MessageBoxImage.Error);
                 
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                }
-
-            }
+             }
             
         }
+        #endregion
 
     }
 }
