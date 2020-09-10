@@ -83,7 +83,7 @@
                     <Button Content="Старт" Style="{StaticResource DoWithPort}" 
                             Click="Start_Click" Name="Start_B"/>
                     <Button Content="Стоп" Style="{StaticResource DoWithPort}"  
-                            Name="Stop_B"/>
+                            Click="Stop_Click" Name="Stop_B"/>
                     <Button Content="Пауза" Style="{StaticResource DoWithPort}" 
                             Click="Pause_Click" Name="Pause_B"/>
 

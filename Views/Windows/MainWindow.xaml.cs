@@ -84,10 +84,37 @@ namespace WpfApp2
             catch
             {
 
-                MessageBoxResult result = MessageBox.Show("Произошла ошибка. Проверьте настройки",
-                                                          "Приложение приостановлено", 
-                                                          MessageBoxButton.OKCancel, 
+                if (COMPort.SelectedItem == null) 
+                {
+
+                    MessageBoxResult result = MessageBox.Show("Не выбран COM-порт!",
+                                                          "Подключение прервано",
+                                                          MessageBoxButton.OKCancel,
                                                           MessageBoxImage.Error);
+
+                }
+
+                if (BaudRate.SelectedItem == null)
+                {
+
+                    MessageBoxResult result = MessageBox.Show("Не выбран BaudRate!",
+                                                          "Подключение прервано",
+                                                          MessageBoxButton.OKCancel,
+                                                          MessageBoxImage.Error);
+
+                }
+
+
+                else 
+                {
+
+                    MessageBoxResult result = MessageBox.Show("Произошла неизвестная ошибка",
+                                                          "Приложение приостановлено",
+                                                          MessageBoxButton.OKCancel,
+                                                          MessageBoxImage.Error);
+
+                }
+                
                 
              }
 
@@ -104,15 +131,24 @@ namespace WpfApp2
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
 
-            if (_serialPort.IsOpen == false)
-            {
-                Pause_B.IsEnabled = false;
-            }
-
             _serialPort.Close();
 
             // Считывает данные до появления указанного символа
             DataOutput.Text += "\n Прием приостановлен";
+
+            Start_B.IsEnabled = true;
+
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+
+            _serialPort.Close();
+
+            // Считывает данные до появления указанного символа
+            DataOutput.Text += "\n Прием остановлен";
+
+            Start_B.IsEnabled = true;
 
         }
     }
