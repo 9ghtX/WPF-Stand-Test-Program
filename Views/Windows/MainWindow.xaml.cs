@@ -26,6 +26,28 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
 
+        SerialPort _serialPort = new SerialPort();
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            if (_serialPort.IsOpen == true)
+            {
+                Start_B.IsEnabled = false;
+            }
+
+
+            if (_serialPort.IsOpen == false)
+            {
+                Pause_B.IsEnabled = false;
+            }
+
+            if (_serialPort.IsOpen == false)
+            {
+                Stop_B.IsEnabled = false;
+            }
+        }
+
         #region Получение списка подключенных портов
         private void Ports_Get (object sender, EventArgs e)
         {
@@ -35,7 +57,7 @@ namespace WpfApp2
         #endregion
 
         #region Подключение через кнопку "Старт"
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Start_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -68,9 +90,30 @@ namespace WpfApp2
                                                           MessageBoxImage.Error);
                 
              }
-            
+
+            if (_serialPort.IsOpen == true)
+            {
+                Start_B.IsEnabled = false;
+            }
+
         }
+
+
         #endregion
 
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (_serialPort.IsOpen == false)
+            {
+                Pause_B.IsEnabled = false;
+            }
+
+            _serialPort.Close();
+
+            // Считывает данные до появления указанного символа
+            DataOutput.Text += "\n Прием приостановлен";
+
+        }
     }
 }
