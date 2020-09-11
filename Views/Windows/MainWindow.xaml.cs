@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.OleDb;
 
 using System.IO.Ports;
+using WpfApp2.Views.Windows;
 
 namespace WpfApp2
 {
@@ -103,20 +104,9 @@ namespace WpfApp2
                                                           MessageBoxImage.Error);
 
                 }
-
-
-                else 
-                {
-
-                    MessageBoxResult result = MessageBox.Show("Произошла неизвестная ошибка",
-                                                          "Приложение приостановлено",
-                                                          MessageBoxButton.OKCancel,
-                                                          MessageBoxImage.Error);
-
-                }
                 
                 
-             }
+            }
 
             if (_serialPort.IsOpen == true)
             {
@@ -150,6 +140,19 @@ namespace WpfApp2
 
             Start_B.IsEnabled = true;
 
+        }
+
+        private void Script_Click(object sender, RoutedEventArgs e)
+        {
+            ScriptList sw = new ScriptList();
+
+            sw.ShowDialog();
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }
