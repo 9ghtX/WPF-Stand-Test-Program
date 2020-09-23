@@ -88,9 +88,8 @@
                     <TextBlock Text="Меню" 
                            TextAlignment="Center"
                            FontSize="20"/>
-                    
-                    <ComboBox Name="COMPort">
-                    </ComboBox>
+
+                    <ComboBox Name="COMPort"/>
 
                     <ComboBox Name="BaudRate" SelectedIndex="2">
                         <ComboBoxItem Content="2400"/>
@@ -126,8 +125,8 @@
                 <TextBlock Name="DataOutput"
                        Background="White"
                        Margin="10"
-                       Text="Выходные данные с платы"
-                       FontSize="16"/>
+                       FontSize="16"
+                       IsEnabled="False"/>
 
             </Grid>
 

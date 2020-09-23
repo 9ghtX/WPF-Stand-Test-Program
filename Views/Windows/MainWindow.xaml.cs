@@ -32,30 +32,12 @@ namespace WpfApp2
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             
-            if (_serialPort.IsOpen == true)
-            {
-                Start_B.IsEnabled = false;
-            }
+            Pause_B.IsEnabled = false;
+            Stop_B.IsEnabled = false;
 
-
-            if (_serialPort.IsOpen == false)
-            {
-                Pause_B.IsEnabled = false;
-            }
-
-            if (_serialPort.IsOpen == false)
-            {
-                Stop_B.IsEnabled = false;
-            }
+            Get_Ports();
+            
         }
-
-        #region Получение списка подключенных портов
-        private void Ports_Get (object sender, EventArgs e)
-        {
-            string[] ports = SerialPort.GetPortNames();
-            COMPort.Items.Add(ports);
-        }
-        #endregion
 
         #region Подключение через кнопку "Старт"
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -70,14 +52,24 @@ namespace WpfApp2
                 8,
                 StopBits.One);
 
-                // Тайминги чтения и записи
-                _serialPort.ReadTimeout = 500;
-                _serialPort.WriteTimeout = 500;
-
                 _serialPort.Open();
 
-                // Считывает данные до появления указанного символа
-                DataOutput.Text = _serialPort.ReadTo("1");
+                if (_serialPort.IsOpen == true)
+                {
+                    Start_B.IsEnabled = false;
+                    Script_B.IsEnabled = false;
+
+                    Pause_B.IsEnabled = true;
+                    Stop_B.IsEnabled = true;
+
+                }
+
+                while (_serialPort.IsOpen == true)
+                {
+
+                    DataOutput.Text += _serialPort.ReadLine();
+
+                }
 
             }
 
@@ -90,34 +82,20 @@ namespace WpfApp2
 
                     MessageBoxResult result = MessageBox.Show("Не выбран COM-порт!",
                                                           "Подключение прервано",
-                                                          MessageBoxButton.OKCancel,
+                                                          MessageBoxButton.OK,
                                                           MessageBoxImage.Error);
 
                 }
 
-                if (BaudRate.SelectedItem == null)
-                {
-
-                    MessageBoxResult result = MessageBox.Show("Не выбран BaudRate!",
-                                                          "Подключение прервано",
-                                                          MessageBoxButton.OKCancel,
-                                                          MessageBoxImage.Error);
-
-                }
-                
-                
             }
 
-            if (_serialPort.IsOpen == true)
-            {
-                Start_B.IsEnabled = false;
-            }
-
-        }
+         }
 
 
         #endregion
 
+
+        // Кнопка паузы
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
 
@@ -127,9 +105,12 @@ namespace WpfApp2
             DataOutput.Text += "\n Прием приостановлен";
 
             Start_B.IsEnabled = true;
+            Script_B.IsEnabled = true;
 
         }
 
+
+        // Кнопка остановки
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
 
@@ -139,9 +120,11 @@ namespace WpfApp2
             DataOutput.Text += "\n Прием остановлен";
 
             Start_B.IsEnabled = true;
+            Script_B.IsEnabled = true;
 
         }
 
+        // Открытие окна сценариев
         private void Script_Click(object sender, RoutedEventArgs e)
         {
             ScriptList sw = new ScriptList();
@@ -150,9 +133,21 @@ namespace WpfApp2
 
         }
 
+        // Полное выключение программы
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        // Получение портов
+        public void Get_Ports()
+        {
+            string[] ports = SerialPort.GetPortNames();
+
+            foreach (string port in ports)
+            {
+                COMPort.Items.Add(port);
+            }
         }
     }
 }
