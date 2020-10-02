@@ -12,11 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using System.Data.OleDb;
-
 using System.IO.Ports;
 using WpfApp2.Views.Windows;
+using System.Runtime.InteropServices;
+using System.Linq.Expressions;
 
 namespace WpfApp2
 {
@@ -42,14 +42,15 @@ namespace WpfApp2
         #region Подключение через кнопку "Старт"
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+
             try
             {
 
                 // Объявление порта и его параметров
-                SerialPort _serialPort = new SerialPort("COMPort.Text",
+                SerialPort _serialPort = new SerialPort(COMPort.Text,
                 Convert.ToInt32(BaudRate.SelectedItem),
-                Parity.None,
-                8,
+                Parity.None, 
+                8, 
                 StopBits.One);
 
                 _serialPort.Open();
@@ -58,19 +59,15 @@ namespace WpfApp2
                 {
                     Start_B.IsEnabled = false;
                     Script_B.IsEnabled = false;
-
+                    
                     Pause_B.IsEnabled = true;
                     Stop_B.IsEnabled = true;
 
+                    Prgrss_Br.Value = 100;
+                    Test_Name_Bar.Text = "Порт открыт";
+
+                    
                 }
-
-                while (_serialPort.IsOpen == true)
-                {
-
-                    DataOutput.Text += _serialPort.ReadLine();
-
-                }
-
             }
 
             // Выдача ошибки при неудачном подключении
@@ -86,7 +83,6 @@ namespace WpfApp2
                                                           MessageBoxImage.Error);
 
                 }
-
             }
 
          }
@@ -107,6 +103,9 @@ namespace WpfApp2
             Start_B.IsEnabled = true;
             Script_B.IsEnabled = true;
 
+            Pause_B.IsEnabled = false;
+            Stop_B.IsEnabled = false;
+
         }
 
 
@@ -121,6 +120,9 @@ namespace WpfApp2
 
             Start_B.IsEnabled = true;
             Script_B.IsEnabled = true;
+
+            Pause_B.IsEnabled = false;
+            Stop_B.IsEnabled = false;
 
         }
 
@@ -148,6 +150,13 @@ namespace WpfApp2
             {
                 COMPort.Items.Add(port);
             }
+        }
+
+        private void Get_Click(object sender, RoutedEventArgs e)
+        {
+
+            DataOutput.Text += $"{_serialPort.ReadLine()} \n";
+
         }
     }
 }

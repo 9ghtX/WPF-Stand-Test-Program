@@ -59,10 +59,12 @@
                 <TextBlock Foreground="Black" Text="Прогресс"/>
             </StatusBarItem>
             <StatusBarItem>
-                <ProgressBar Width="300" Height="20"/>
+                <ProgressBar Width="300" Height="20"
+                             Name="Prgrss_Br"/>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock Text="Названия блока теста и сценария"/>
+                <TextBlock Text="Названия блока теста и сценария"
+                           Name="Test_Name_Bar"/>
             </StatusBarItem>
         </StatusBar>
 
@@ -103,6 +105,12 @@
                             Margin="0, 15"
                             BorderBrush="DarkGray" BorderThickness="1"
                             Click="Script_Click" Name="Script_B"/>
+
+                    <Button Content="Принять" 
+                            Foreground="Black" FontSize="16"
+                            Margin="0, 0"
+                            BorderBrush="DarkGray" BorderThickness="1"
+                            Click="Get_Click" Name="Get_B"/>
 
                 </StackPanel>
 
