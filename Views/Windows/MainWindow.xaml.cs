@@ -17,6 +17,7 @@ using System.IO.Ports;
 using WpfApp2.Views.Windows;
 using System.Runtime.InteropServices;
 using System.Linq.Expressions;
+using System.Windows.Media.Animation;
 
 namespace WpfApp2
 {
@@ -27,65 +28,66 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
 
-        SerialPort _serialPort = new SerialPort();
+        SerialPort serialPort = new SerialPort();
+        string com;
+        string b_rate;
+        int speed;
+
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            DataOutput.Text = " ";
+
             Pause_B.IsEnabled = false;
             Stop_B.IsEnabled = false;
 
             Get_Ports();
-            
-        }
+
+         }
 
         #region Подключение через кнопку "Старт"
         private void Start_Click(object sender, RoutedEventArgs e)
         {
 
-            try
-            {
+            com = COMPort.Text;
+            speed = Int32.Parse(BaudRate.Text);
 
-                // Объявление порта и его параметров
-                SerialPort _serialPort = new SerialPort(COMPort.Text,
-                Convert.ToInt32(BaudRate.SelectedItem),
-                Parity.None, 
-                8, 
-                StopBits.One);
+            // Объявление порта и его параметров
+            SerialPort serialPort = new SerialPort(com, speed, Parity.None, 8, StopBits.One);
+            serialPort.Open();
 
-                _serialPort.Open();
-
-                if (_serialPort.IsOpen == true)
-                {
-                    Start_B.IsEnabled = false;
-                    Script_B.IsEnabled = false;
-                    
-                    Pause_B.IsEnabled = true;
-                    Stop_B.IsEnabled = true;
-
-                    Prgrss_Br.Value = 100;
-                    Test_Name_Bar.Text = "Порт открыт";
-
-                    
-                }
-            }
-
-            // Выдача ошибки при неудачном подключении
-            catch
-            {
-
-                if (COMPort.SelectedItem == null) 
+                try
                 {
 
-                    MessageBoxResult result = MessageBox.Show("Не выбран COM-порт!",
-                                                          "Подключение прервано",
-                                                          MessageBoxButton.OK,
-                                                          MessageBoxImage.Error);
+                    if (serialPort.IsOpen)
+                    {
+                        Start_B.IsEnabled = false;
+                        Script_B.IsEnabled = false;
 
+                        Pause_B.IsEnabled = true;
+                        Stop_B.IsEnabled = true;
+
+                        Prgrss_Br.Value = 100;
+                        Test_Name_Bar.Text = "Порт открыт";
                 }
-            }
+                }
 
-         }
+                // Выдача ошибки при неудачном подключении
+                catch
+                {
+
+                    if (COMPort.SelectedItem == null)
+                    {
+
+                        MessageBoxResult result = MessageBox.Show("Не выбран COM-порт!",
+                                                              "Подключение прервано",
+                                                              MessageBoxButton.OK,
+                                                              MessageBoxImage.Error);
+
+                    }
+                }
+
+        }
 
 
         #endregion
@@ -95,7 +97,7 @@ namespace WpfApp2
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
 
-            _serialPort.Close();
+            serialPort.Close();
 
             // Считывает данные до появления указанного символа
             DataOutput.Text += "\n Прием приостановлен";
@@ -113,7 +115,7 @@ namespace WpfApp2
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
 
-            _serialPort.Close();
+            serialPort.Close();
 
             // Считывает данные до появления указанного символа
             DataOutput.Text += "\n Прием остановлен";
@@ -155,8 +157,9 @@ namespace WpfApp2
         private void Get_Click(object sender, RoutedEventArgs e)
         {
 
-            DataOutput.Text += $"{_serialPort.ReadLine()} \n";
+            DataOutput.Text += $"{serialPort.ReadLine()} \n";
 
         }
+
     }
 }
