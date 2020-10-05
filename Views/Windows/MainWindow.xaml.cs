@@ -28,12 +28,6 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
 
-        SerialPort serialPort = new SerialPort();
-        string com;
-        string b_rate;
-        int speed;
-
-
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataOutput.Text = " ";
@@ -49,8 +43,8 @@ namespace WpfApp2
         private void Start_Click(object sender, RoutedEventArgs e)
         {
 
-            com = COMPort.Text;
-            speed = Int32.Parse(BaudRate.Text);
+            string com = COMPort.Text;
+            int speed = Int32.Parse(BaudRate.Text);
 
             // Объявление порта и его параметров
             SerialPort serialPort = new SerialPort(com, speed, Parity.None, 8, StopBits.One);
@@ -59,6 +53,7 @@ namespace WpfApp2
                 try
                 {
 
+                    // Проверка открытия порта
                     if (serialPort.IsOpen)
                     {
                         Start_B.IsEnabled = false;
