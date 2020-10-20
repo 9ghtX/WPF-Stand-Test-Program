@@ -12,8 +12,7 @@ namespace WpfApp2.Models
     public  partial  class COMPort : Window
     {
 
-        
-
+        SerialPort serialPort = new SerialPort();
 
     }
 }

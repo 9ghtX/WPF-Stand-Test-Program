@@ -36,8 +36,12 @@ namespace WpfApp2
             Stop_B.IsEnabled = false;
 
             Get_Ports();
+        }
 
-         }
+        SerialPort serialPort = new SerialPort();
+
+        [DllImport("FTD2XX_NET.dll", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
+        private static extern int FT_Open(int deviceNumber, ref int pHandle);
 
         #region Подключение через кнопку "Старт"
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -47,24 +51,25 @@ namespace WpfApp2
             int speed = Int32.Parse(BaudRate.Text);
 
             // Объявление порта и его параметров
-            SerialPort serialPort = new SerialPort(com, speed, Parity.None, 8, StopBits.One);
-            serialPort.Open();
-
+            
                 try
                 {
 
-                    // Проверка открытия порта
+                serialPort = new SerialPort(com, speed, Parity.None, 8, StopBits.One);
+                serialPort.Open();
+
+                // Проверка открытия порта
                     if (serialPort.IsOpen)
-                    {
-                        Start_B.IsEnabled = false;
-                        Script_B.IsEnabled = false;
+                        {
+                            Start_B.IsEnabled = false;
+                            Script_B.IsEnabled = false;
 
-                        Pause_B.IsEnabled = true;
-                        Stop_B.IsEnabled = true;
+                            Pause_B.IsEnabled = true;
+                            Stop_B.IsEnabled = true;
 
-                        Prgrss_Br.Value = 100;
-                        Test_Name_Bar.Text = "Порт открыт";
-                }
+                            Prgrss_Br.Value = 100;
+                            Test_Name_Bar.Text = "Порт открыт";
+                    }
                 }
 
                 // Выдача ошибки при неудачном подключении
@@ -81,6 +86,8 @@ namespace WpfApp2
 
                     }
                 }
+
+                
 
         }
 
@@ -151,9 +158,9 @@ namespace WpfApp2
 
         private void Get_Click(object sender, RoutedEventArgs e)
         {
-
+            
             DataOutput.Text += $"{serialPort.ReadLine()} \n";
-
+            
         }
 
     }
